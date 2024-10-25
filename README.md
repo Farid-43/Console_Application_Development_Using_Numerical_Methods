@@ -91,3 +91,61 @@ Run main.cpp file
        1. Decompose `A` into `L` (lower triangular) and `U` (upper triangular).
        2. Solving `Ly = b` using forward substitution.
        3. Solving `Ux = y` using back substitution to find `x`.
+
+
+### 2.Solution of Non-Linear Equation Solvers
+
+## Bisection Method
+- **Description**: The Bisection method is a root-finding method that repeatedly divides an interval in half to narrow down the potential location of a root. It requires the function to change signs over the interval \([a,b]\).
+- **Implementation**: The method checks the function values at the endpoints of the interval and finds the midpoint. If the function value at the midpoint is sufficiently close to zero, it returns the midpoint as the root. Otherwise, it narrows the interval to the half where a sign change occurs.
+- **Pseudocode**:
+  1. Initializing \( a \) and \( b \) with the endpoints of the interval.
+  2. While the absolute difference between \( a \) and \( b \) is greater than tolerance:
+     ```plaintext
+     Calculating the midpoint mid = (a + b) / 2.
+     If f(mid) == 0, return mid.
+     If f(a) * f(mid) < 0, set b = mid.
+     Else set a = mid.
+     ```
+  3. Return mid as the root.
+
+## False Position Method
+- **Description**: The False Position method is a root-finding method that combines features of the Bisection method and linear interpolation.
+- **Implementation**: Similar to the Bisection method, it starts with two points and checks the function values. It uses linear interpolation to find a better approximation of the root, adjusting the interval based on the sign of the function.
+- **Pseudocode**:
+  1. Initializing \( a \) and \( b \) with the endpoints of the interval.
+  2. While the function value at mid is not sufficiently close to zero:
+     ```plaintext
+     Calculating mid using linear interpolation: mid = (a * f(b) - b * f(a)) / (f(b) - f(a)).
+     If f(mid) == 0, return mid.
+     If f(a) * f(mid) < 0, set b = mid.
+     Else set a = mid.
+     ```
+  3. Return mid as the root.
+
+## Newton-Raphson Method
+- **Description**: The Newton-Raphson method is an iterative technique that uses the derivative of a function to find its roots.
+- **Implementation**: Starting with an initial guess, it updates the guess using the formula 
+\[
+x = x - \frac{f(x)}{f'(x)}
+\]. This process is repeated until the approximation converges to a root.
+- **Pseudocode**:
+  1. Initializing \( x \) with an initial guess.
+  2. While the absolute value of the function at \( x \) is greater than tolerance:
+     ```plaintext
+     Calculating the derivative f'(x).
+     Update x using x = x - f(x) / f'(x).
+     ```
+  3. Return \( x \) as the root.
+
+## Secant Method
+- **Description**: The Secant method is a numerical technique to find roots of functions using two initial approximations and does not require the derivative.
+- **Implementation**: It approximates the derivative using the values of the function at the two initial points and iteratively refines the guesses.
+- **Pseudocode**:
+  1. Initializing \( x_1 \) and \( x_2 \) with two initial guesses.
+  2. While the absolute value of the function at \( x_3 \) is greater than tolerance:
+     ```plaintext
+     Calculating x3 = x2 - (f(x2) * (x2 - x1)) / (f(x2) - f(x1)).
+     Update x1 and x2 for the next iteration.
+     ```
+  3. Return \( x_3 \) as the root.
