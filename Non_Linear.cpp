@@ -151,7 +151,6 @@ void bisection(double mini, double maxa, int n, vector<double> arr)
                     bb = mm;
                 }
                 // cout << mid << endl;
-                // cout << fabs(prev - mid) << endl;
                 prev = mid;
             }
             ans.insert(mid);
