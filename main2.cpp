@@ -4,8 +4,8 @@ using namespace std;
 
 int main(){
     int n;
-    vector<vector<double>> A;    // Declare A and b outside of switch
-    vector<double> b, x;         // x is used for initial values in some methods
+    vector<vector<double>> A;    
+    vector<double> b, x;         
 
 
     while (true) {
@@ -42,7 +42,7 @@ int main(){
                 cin >> n;
                 A.resize(n, vector<double>(n));
                 b.resize(n);
-                x.assign(n, 0.0); // Initialize x for Gauss-Seidel
+                x.assign(n, 0.0); 
 
                 cout << "Enter the coefficient matrix and right-hand value:\n";
                 for (int i = 0; i < n; i++) {
@@ -57,7 +57,7 @@ int main(){
             case 3:
                 cout << "Enter the number of variables: ";
                 cin >> n;
-                A.resize(n, vector<double>(n + 1)); // Augmented matrix for Gauss Elimination
+                A.resize(n, vector<double>(n + 1));
 
                 cout << "Enter the augmented matrix:\n";
                 for (int i = 0; i < n; i++) {
@@ -71,7 +71,7 @@ int main(){
             case 4:
                 cout << "Enter the number of variables: ";
                 cin >> n;
-                A.resize(n, vector<double>(n + 1)); // Augmented matrix for Gauss-Jordan
+                A.resize(n, vector<double>(n + 1));
 
                 cout << "Enter the augmented matrix:\n";
                 for (int i = 0; i < n; i++) {
