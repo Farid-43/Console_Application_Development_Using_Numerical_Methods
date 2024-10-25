@@ -1,4 +1,6 @@
 #include "linear.cpp"
+#include "matrixInversion.cpp"
+#include "rangeKutta.cpp"
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -16,10 +18,14 @@ int main(){
         cout << "3. Gauss Elimination Method\n";
         cout << "4. Gauss Jordan Elimination Method\n";
         cout << "5. LU Factorization Method\n";
+        cout<< "6. Exit\n";
+
 
         int op;
         cin >> op;
-        
+
+        if(op==6) break;
+
         switch (op) {
             case 1:
                 cout << "Enter the number of variables: ";
@@ -97,11 +103,68 @@ int main(){
                 }
                 luDecomposition(A, b);
                 break;
-
             default:
                 cout << "Invalid option. Please try again.\n";
                 break;
         }
     }
+    
+    cout<<"Matrix Inversion \n";
+    int sz;
+    cout << "Enter the size of the matrix: ";
+    cin >> sz;
+
+    vector<vector<double>> matrix(sz, vector<double>(sz));
+    cout << "Enter the matrix elements: " << endl;
+    for (int i = 0; i < sz; i++) {
+        for (int j = 0; j < sz; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+    matrixInversion(matrix);
+
+    cout<<"4th order Range Kutta Method \n";
+    cout<<"Enter initial condition y0: ";
+    double y0;
+    cin>>y0;
+    cout<<"Enter Start value  x0: ";
+    double x0;
+    cin>>x0;
+    cout<<"Enter End value x_end: ";
+    double x_end;
+    cin>>x_end;
+    cout<<"Enter step size: ";
+    cout<<"Enter step size: ";
+    double h;
+    cin>>h;
+    rangeKutta(y0,x0,x_end,h);
     return 0;
 }
+
+/*
+For option 1 to 5:
+   10   -1    2    1    1   12 
+  -1   10   -1    2    1   15 
+   2   -1   10   -1    2   16 
+   1    2   -1   10   -1   14 
+   1    1    2   -1   10   13
+
+
+   For Inversion:
+   10   -1    2    1    1   
+  -1   10   -1    2    1    
+   2   -1   10   -1    2    
+   1    2   -1   10   -1    
+   1    1    2   -1   10    
+
+
+        4 -1 0 1
+        -1 3 -1 2
+        0 -1 5 3
+
+//For Kutta:
+        double y0 = 1.0;      // Initial condition   
+        double x0 = 0.0;      // Start value of x
+        double x_end = 5.0;   // End value of x
+        double h = 0.1;       // Step size
+*/
