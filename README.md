@@ -32,8 +32,9 @@ numerical methods.
 ```
 
 #### To run the project
+```bash
 Run main.cpp file
-
+```
 ## Explanation
 ### 1. Solution of Linear Equations
    - **Jacobi Iterative Method**
