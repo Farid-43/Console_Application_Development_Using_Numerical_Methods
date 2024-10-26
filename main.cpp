@@ -170,7 +170,7 @@ int main()
                 cout << "2: False position method" << endl;
                 cout << "3: Newton raphson method" << endl;
                 cout << "4: Secant method" << endl;
-                cout << "5:Exit" << endl;
+                cout << "5: Back" << endl;
                 int choice;
                 cin >> choice;
                 if (choice == 5)
