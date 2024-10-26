@@ -92,6 +92,7 @@ int main()
                 case 3:
                     cout << "Enter the number of variables: " << endl;
                     cin >> n;
+                    A.clear();
                     A.resize(n, vector<double>(n + 1));
 
                     cout << "Enter the augmented matrix: " << endl;
@@ -108,6 +109,7 @@ int main()
                 case 4:
                     cout << "Enter the number of variables: " << endl;
                     cin >> n;
+                    A.clear();
                     A.resize(n, vector<double>(n + 1));
 
                     cout << "Enter the augmented matrix: " << endl;
