@@ -172,24 +172,7 @@ void luDecomposition(vector<vector<double>>& A,vector<double> &b) {
         }
     }
 
-
-    cout << "Matrix L:" << endl;
-    for (const auto& row : L) {
-        for (double val : row) {
-            cout <<setw(10)<< val;
-        }
-        cout << endl;
-    }
-
-    cout << "Matrix U:" << endl;
-    for (const auto& row : U) {
-        for (double val : row) {
-            cout <<setw(10)<< val;
-        }
-        cout << endl;
-    }
-
-     vector<double> x = luSolve(L, U, b);
+    vector<double> x = luSolve(L, U, b);
 
     cout << "The solution is: ";
     for (double val : x) {
