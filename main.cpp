@@ -143,6 +143,20 @@ int main()
                     break;
                 }
             }
+            /*
+                    5 variable
+            10   -1    2    1    1   12
+            -1   10   -1    2    1   15
+            2   -1   10   -1    2   16
+            1    2   -1   10   -1   14
+            1    1    2   -1   10   13
+
+
+                    3 variable
+                4 -1 0 1
+                -1 3 -1 2
+                0 -1 5 3
+            */
         }
         else if (pick == 2)
         {
@@ -269,7 +283,6 @@ int main()
             double x_end;
             cin >> x_end;
             cout << "Enter step size: " << endl;
-            cout << "Enter step size: " << endl;
             double h;
             cin >> h;
             rangeKutta(y0, x0, x_end, h);
@@ -298,7 +311,7 @@ int main()
             }
             matrixInversion(matrix);
             /*
-            For option 1 to 5:
+            For Linear:
             5 variable
            10   -1    2    1    1   12
           -1   10   -1    2    1   15

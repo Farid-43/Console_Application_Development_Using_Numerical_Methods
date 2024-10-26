@@ -25,13 +25,13 @@ numerical methods.
 
 ## Deployment
 
-#### To deploy this project run
+### To deploy this project run
 
 ```bash
   git clone https://github.com/Farid-43/Console_Application_Development_Using_Numerical_Methods.git
 ```
 
-#### To run the project
+### To run the project
 ```bash
 Run main.cpp file
 ```
@@ -94,7 +94,7 @@ Run main.cpp file
        3. Solving `Ux = y` using back substitution to find `x`.
 
 
-### 2.Solution of Non-Linear Equation Solvers
+## 2.Solution of Non-Linear Equation Solvers
 
 ## Bisection Method
 - **Description**: The Bisection method is a root-finding method that repeatedly divides an interval in half to narrow down the potential location of a root. It requires the function to change signs over the interval \([a,b]\).
@@ -128,7 +128,7 @@ Run main.cpp file
 - **Description**: The Newton-Raphson method is an iterative technique that uses the derivative of a function to find its roots.
 - **Implementation**: Starting with an initial guess, it updates the guess using the formula 
 \[
-x = x - \frac{f(x)}{f'(x)}
+x = x - frac{f(x)}/{f'(x)}
 \]. This process is repeated until the approximation converges to a root.
 - **Pseudocode**:
   1. Initializing \( x \) with an initial guess.
@@ -150,3 +150,41 @@ x = x - \frac{f(x)}{f'(x)}
      Update x1 and x2 for the next iteration.
      ```
   3. Return \( x_3 \) as the root.
+
+
+## 3.Solution of Differential Equations
+
+### Runge-Kutta 4th Order Method
+
+- **Description**: The function `f` represents the differential equation \( y' = f(x, y) \) that we aim to solve.
+- **Implementation**: In this example, the function `f` is defined as \( f(x, y) = x - y \), meaning the equation is \( y' = x - y \).
+- **Pseudocode**:
+  1. Define `f(x, y)`.
+     ```plaintext
+     return x - y
+  2. Calculate the intermediate `k` values:
+   ```plaintext
+   k1 = h * f(x_n, y_n)
+   k2 = h * f(x_n + h / 2, y_n + k1 / 2)
+   k3 = h * f(x_n + h / 2, y_n + k2 / 2)
+   k4 = h * f(x_n + h, y_n + k3)
+   y_n = y_n + (k1 + 2 * k2 + 2 * k3 + k4) / 6
+
+## 4.Matrix Inversion
+
+- **Description**: Matrix inversion is the process of finding a matrix, called the inverse, which, when multiplied by the original matrix, results in an identity matrix. This process is commonly used in solving systems of linear equations, as it transforms the original matrix into a form where solutions can be directly read.
+
+- **Implementation**: To find the inverse, we used an augmented matrix approach with Gaussian elimination. The matrix is augmented by appending an identity matrix, and row operations are applied to transform the original matrix into an identity matrix, with the identity matrix transforming into the inverse.
+
+- **Pseudocode**:
+  1. **Initializing Augmented Matrix**: Creating an augmented matrix by appending an identity matrix to the original matrix.
+  
+  2. **Pivoting and Row Operations**:
+     - For each row \( i \):
+       1. **Pivot Check**: If the diagonal element is near zero, swap with a row below where the element in the same column is non-zero.
+       2. **Normalize Row**: Dividing all elements in row \( i \) by the diagonal element to make it 1.
+       3. **Eliminate Other Rows**: For each row \( k \):
+          - Subtract a multiple of row \( i \) from row \( k \) to make the element in the current column zero.
+  
+  3. **Extract Inverse Matrix**: After all rows have been processed, the right half of the augmented matrix will contain the inverse.
+
