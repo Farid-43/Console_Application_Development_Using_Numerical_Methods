@@ -188,3 +188,25 @@ x = x - frac{f(x)}/{f'(x)}
   
   3. **Extract Inverse Matrix**: After all rows have been processed, the right half of the augmented matrix will contain the inverse.
 
+
+## Lessons Learned
+Throughout our journey in developing the Console Application Using Numerical Methods, we gained invaluable experience, particularly in using GitHub effectively. This was a major project and becoming familiar with GitHub helped streamline our collaboration and code management.
+
+As we progressed through the project, we encountered various challenges, especially with merging codes and files. These obstacles required us to adapt and learn from different resources, whether through documentation, tutorials, or discussions with peers. Each challenge provided us with an opportunity to deepen our understanding of both the numerical methods and the tools we were using.
+
+Additionally, we discovered the importance of thorough testing and debugging, which played a critical role in ensuring the accuracy and reliability of our application. By actively engaging with each other and leveraging our collective knowledge, we were able to overcome these hurdles and successfully complete our project.
+
+This project not only enhanced our technical skills but also taught us the value of collaboration, problem-solving, and continuous learning.
+
+## Group Members
+
+- [Sumaiya Akter](https://github.com/sa-hcc5142)
+- [Akash Biswas](https://github.com/akash07013)
+- [Farid Ahmed](https://github.com/Farid-43)
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at
+    [Farid Ahmed](faridpatwary2020@gmail.com)
+
