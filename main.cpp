@@ -42,7 +42,7 @@ int main()
                 cout << "3. Gauss Elimination Method " << endl;
                 cout << "4. Gauss Jordan Elimination Method " << endl;
                 cout << "5. LU Factorization Method " << endl;
-                cout << "6. Exit " << endl;
+                cout << "6. Back " << endl;
 
                 int op;
                 cin >> op;
