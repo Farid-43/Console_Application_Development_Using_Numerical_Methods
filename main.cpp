@@ -170,60 +170,45 @@ int main()
                 cout << "2: False position method" << endl;
                 cout << "3: Newton raphson method" << endl;
                 cout << "4: Secant method" << endl;
-                cout << "5: Back" << endl;
+                cout << "5:Exit" << endl;
                 int choice;
                 cin >> choice;
                 if (choice == 5)
                     break;
+
+                int degree;
+                cout << "Enter the degree of the polynomial: " << endl;
+                cin >> degree;
+                cout << "Enter the coefficients (highest to lowest degree): " << endl;
+                for (int i = 0; i <= degree; i++)
+                {
+                    double coefficient;
+                    cin >> coefficient;
+                    arr.push_back(coefficient);
+                }
+
                 if (choice == 1 || choice == 2)
                 {
-                    int degree;
-
-                    cout << "Enter the degree of the polynomial (square or cubic or quadratic equation): " << endl;
-                    cin >> degree;
-                    cout << "Enter the coefficients (highest to lowest degree): " << endl;
-                    for (int i = 0; i <= degree; i++)
+                    // Calculate bounds using a more reliable method
+                    double bound = 1.0;
+                    for (int i = 1; i < arr.size(); i++)
                     {
-                        double coefficient;
-                        cin >> coefficient;
-                        arr.push_back(coefficient);
+                        bound = max(bound, pow(2.0 * fabs(arr[i] / arr[0]), 1.0 / i));
                     }
-                    double m, x;
-                    x = (arr[1] / arr[0]);
-                    x *= x;
-                    double y = 2 * (arr[2] / arr[0]);
-                    double maxa = abs(x - y);
-                    double mini = -maxa;
+                    double mini = -bound, maxa = bound;
+
                     if (choice == 1)
-                        bisection(mini, maxa, degree + 1, arr);
-                    else if (choice == 2)
-                        False_Position(mini, maxa, degree + 1, arr);
+                        findRoots(mini, maxa, false, arr); // Bisection
+                    else
+                        findRoots(mini, maxa, true, arr); // False Position
+
                     cout << endl;
-
-                    /*
-                    Non linear:
-                    3
-                    1 0 -7 6
-
-                    */
                 }
                 else if (choice == 3 || choice == 4)
                 {
-                    int degree;
-
-                    cout << "Enter the degree of the polynomial: " << endl;
-                    cin >> degree;
-                    cout << "Enter the coefficients (highest to lowest degree): " << endl;
-                    for (int i = 0; i <= degree; i++)
-                    {
-                        double coefficient;
-                        cin >> coefficient;
-                        arr.push_back(coefficient);
-                    }
                     reverse(arr.begin(), arr.end());
-
                     set<double> uniqueRoots;
-                    double intervalStart = -500, intervalEnd = 500;
+                    double intervalStart = -100, intervalEnd = 100;
                     double step = 1;
 
                     for (double initialGuess = intervalStart; initialGuess <= intervalEnd; initialGuess += step)
@@ -231,16 +216,11 @@ int main()
                         double root;
                         if (choice == 3)
                         {
-                            root = newtonRaphson(initialGuess, 1e-6, 1000, arr);
-                        }
-                        else if (choice == 4)
-                        {
-                            root = secantMethod(initialGuess, initialGuess + step, 1e-6, 1000, arr);
+                            root = newtonRaphson(initialGuess, arr);
                         }
                         else
                         {
-                            cout << "Invalid choice!" << endl;
-                            return 1;
+                            root = secantMethod(initialGuess, initialGuess + step, arr);
                         }
 
                         bool isUnique = true;
@@ -271,6 +251,12 @@ int main()
                     break;
                 }
             }
+            /*
+                5 degree
+                1 -3 -23 51 94 -120
+                solve : -4 -2 1 3 5
+
+            */
         }
         else if (pick == 3)
         {

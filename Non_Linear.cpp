@@ -1,7 +1,111 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-double fxx(double x, vector<double> arr)
+double evaluate(double x, vector<double> &arr)
+{
+    double result = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        result = result * x + arr[i];
+    }
+    return result;
+}
+
+bool rootExists(const set<double> &roots, double newRoot, double tolerance = 1e-6)
+{
+    for (double root : roots)
+    {
+        if (fabs(root - newRoot) < tolerance)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<pair<double, double>> findInitialIntervals(double mini, double maxa, vector<double> &arr, double step = 0.1)
+{
+    vector<pair<double, double>> intervals;
+    for (double x = mini; x <= maxa; x += step)
+    {
+        double fa = evaluate(x, arr);
+        double fb = evaluate(x + step, arr);
+        if (fa * fb <= 0)
+        {
+            intervals.push_back({x, x + step});
+        }
+    }
+    return intervals;
+}
+
+void findRoots(double mini, double maxa, bool useFalsePosition, vector<double> &arr)
+{
+    set<double> roots;
+    auto intervals = findInitialIntervals(mini, maxa, arr);
+    const double tolerance = 1e-6;
+
+    for (auto [a, b] : intervals)
+    {
+        double fa = evaluate(a, arr);
+        double fb = evaluate(b, arr);
+
+        if (fabs(fa) < tolerance && !rootExists(roots, a))
+        {
+            roots.insert(a);
+            continue;
+        }
+        if (fabs(fb) < tolerance && !rootExists(roots, b))
+        {
+            roots.insert(b);
+            continue;
+        }
+
+        int maxIter = 100;
+        while (maxIter-- && fabs(b - a) > tolerance)
+        {
+            double c = useFalsePosition ? (a * fb - b * fa) / (fb - fa) : (a + b) / 2;
+
+            double fc = evaluate(c, arr);
+            if (fabs(fc) < tolerance)
+            {
+                if (!rootExists(roots, c))
+                {
+                    roots.insert(c);
+                }
+                break;
+            }
+
+            if (fc * fa < 0)
+            {
+                b = c;
+                fb = fc;
+            }
+            else
+            {
+                a = c;
+                fa = fc;
+            }
+        }
+
+        if (maxIter >= 0 && fabs(b - a) < tolerance)
+        {
+            double finalRoot = (a + b) / 2;
+            if (!rootExists(roots, finalRoot))
+            {
+                roots.insert(finalRoot);
+            }
+        }
+    }
+
+    cout << "Roots using " << (useFalsePosition ? "False Position" : "Bisection") << ": ";
+    for (double root : roots)
+    {
+        cout << fixed << setprecision(6) << root << " ";
+    }
+    cout << endl;
+}
+
+double fxx(double x, vector<double> &arr)
 {
     double ans = 0;
     int n = arr.size();
@@ -12,7 +116,7 @@ double fxx(double x, vector<double> arr)
     return ans;
 }
 
-double ddx(double x, vector<double> arr)
+double ddx(double x, vector<double> &arr)
 {
     int n = arr.size();
     double ans = 0;
@@ -23,10 +127,9 @@ double ddx(double x, vector<double> arr)
     return ans;
 }
 
-double secantMethod(double x1, double x2, double tolerance, int maxIterations, vector<double> arr)
+double secantMethod(double x1, double x2, vector<double> &arr, double tolerance = 1e-6, int maxIterations = 1000)
 {
     double fx1, fx2, x3, fx3;
-
     for (int iter = 0; iter < maxIterations; iter++)
     {
         fx1 = fxx(x1, arr);
@@ -46,7 +149,7 @@ double secantMethod(double x1, double x2, double tolerance, int maxIterations, v
     return x2;
 }
 
-double newtonRaphson(double x, double tolerance, int maxIterations, vector<double> arr)
+double newtonRaphson(double x, vector<double> &arr, double tolerance = 1e-6, int maxIterations = 1000)
 {
     double fx, dx;
     for (int iter = 0; iter < maxIterations; ++iter)
@@ -61,193 +164,4 @@ double newtonRaphson(double x, double tolerance, int maxIterations, vector<doubl
         x = x1;
     }
     return x;
-}
-double sq(double x, vector<double> arr)
-{
-    double ans = arr[0] * x * x + arr[1] * x + arr[2];
-    return ans;
-}
-double cube(double x, vector<double> arr)
-{
-    double ans = arr[0] * x * x * x + arr[1] * x * x + arr[2] * x + arr[3];
-    return ans;
-}
-double quadratic(double x, vector<double> arr)
-{
-    double ans = arr[0] * x * x * x * x + arr[1] * x * x * x + arr[2] * x * x + arr[3] * x + arr[4];
-    return ans;
-}
-void bisection(double mini, double maxa, int n, vector<double> arr)
-{
-    double a, b, i;
-    double aa, bb, mid, mm;
-    set<double> ans;
-    for (i = mini - 1; i <= maxa + 1; i++)
-    {
-        a = i, b = i + 1;
-        if (n == 3)
-        {
-            aa = sq(a, arr);
-            bb = sq(b, arr);
-        }
-        else if (n == 4)
-        {
-            aa = cube(a, arr);
-            bb = cube(b, arr);
-        }
-        else
-        {
-            aa = quadratic(a, arr);
-            bb = quadratic(b, arr);
-        }
-        if (aa == 0)
-        {
-            ans.insert(a);
-            if (bb == 0)
-            {
-                ans.insert(b);
-            }
-            continue;
-        }
-        if (bb == 0)
-        {
-            ans.insert(b);
-            if (aa == 0)
-            {
-                ans.insert(a);
-            }
-            continue;
-        }
-        if (aa * bb < 0)
-        {
-            //
-            mid = (a + b) / 2;
-            // cout << mid << endl;
-            double prev = mid;
-            if (n == 3)
-                mm = sq(mid, arr);
-            else if (n == 4)
-                mm = cube(mid, arr);
-            else
-                mm = quadratic(mid, arr);
-
-            while (fabs(mm) > 1e-6)
-            {
-                mid = (a + b) / 2;
-                if (n == 3)
-                    mm = sq(mid, arr);
-                else if (n == 4)
-                    mm = cube(mid, arr);
-                else
-                    mm = quadratic(mid, arr);
-                if ((mm < 0 && aa < 0) || (mm > 0 && aa > 0))
-                {
-                    a = mid;
-                    aa = mm;
-                }
-                else
-                {
-                    b = mid;
-                    bb = mm;
-                }
-                // cout << mid << endl;
-                prev = mid;
-            }
-            ans.insert(mid);
-        }
-    }
-    cout << "Root : ";
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
-    cout << endl;
-}
-
-void False_Position(double mini, double maxa, int n, vector<double> arr)
-{
-    double a, b, i;
-    double aa, bb, mid, mm;
-    set<double> ans;
-    for (i = mini - 1; i <= maxa + 1; i++)
-    {
-        a = i, b = i + 1;
-        if (n == 3)
-        {
-            aa = sq(a, arr);
-            bb = sq(b, arr);
-        }
-        else if (n == 4)
-        {
-            aa = cube(a, arr);
-            bb = cube(b, arr);
-        }
-        else
-        {
-            aa = quadratic(a, arr);
-            bb = quadratic(b, arr);
-        }
-        if (aa == 0)
-        {
-            ans.insert(a);
-            if (bb == 0)
-            {
-                ans.insert(b);
-            }
-            continue;
-        }
-        if (bb == 0)
-        {
-            ans.insert(b);
-            if (aa == 0)
-            {
-                ans.insert(a);
-            }
-            continue;
-        }
-        if (aa * bb < 0)
-        {
-            // mid = (a + b) / 2;
-            mid = (a * (bb)-b * aa) / (bb - aa);
-            double prev = mid;
-            if (n == 3)
-                mm = sq(mid, arr);
-            else if (n == 4)
-                mm = cube(mid, arr);
-            else
-                mm = quadratic(mid, arr);
-
-            while (fabs(mm) > 1e-6)
-            {
-                mid = (a * (bb)-b * aa) / (bb - aa);
-                // cout << b << endl;
-                if (n == 3)
-                    mm = sq(mid, arr);
-                else if (n == 4)
-                    mm = cube(mid, arr);
-                else
-                    mm = quadratic(mid, arr);
-                if ((mm < 0 && aa < 0) || (mm > 0 && aa > 0))
-                {
-                    a = mid;
-                    aa = mm;
-                }
-                else
-                {
-                    b = mid;
-                    bb = mm;
-                }
-                // cout << mid << endl;
-                //  cout << fabs(prev - mid) << endl;
-                prev = mid;
-            }
-            ans.insert(mid);
-        }
-    }
-    cout << "Root : ";
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
-    cout << endl;
 }
